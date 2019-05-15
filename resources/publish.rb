@@ -30,7 +30,7 @@ action :create do
   endpoint = new_resource.endpoint.empty? ? '' : "#{new_resource.endpoint}:"
 
   execute "Publish #{new_resource.type} - #{new_resource.publish_name}" do
-    command "aptly publish #{new_resource.type} -batch -gpg-key='#{node['aptly']['gpg']['gpgkey']}' -passphrase='#{node['aptly']['gpg']['passphrase']}' -component='#{components}' #{architectures(new_resource.architectures)} -distribution='#{new_resource.distribution}' -- #{new_resource.publish_name} #{endpoint}#{new_resource.prefix}"
+    command "aptly publish #{new_resource.type} -gpg-key='#{node['aptly']['gpg']['gpgkey']}' -passphrase='#{node['aptly']['gpg']['passphrase']}' -component='#{components}' #{architectures(new_resource.architectures)} -distribution='#{new_resource.distribution}' -- #{new_resource.publish_name} #{endpoint}#{new_resource.prefix}"
     user node['aptly']['user']
     group node['aptly']['group']
     environment aptly_env
@@ -43,7 +43,7 @@ end
 action :update do
   endpoint = new_resource.endpoint.empty? ? '' : "#{new_resource.endpoint}:"
   execute "Updating distribution - #{new_resource.prefix} #{new_resource.publish_name}" do
-    command "aptly publish update -batch -gpg-key='#{node['aptly']['gpg']['gpgkey']}' -passphrase='#{node['aptly']['gpg']['passphrase']}' #{new_resource.publish_name} #{endpoint}#{new_resource.prefix}"
+    command "aptly publish update -gpg-key='#{node['aptly']['gpg']['gpgkey']}' -passphrase='#{node['aptly']['gpg']['passphrase']}' #{new_resource.publish_name} #{endpoint}#{new_resource.prefix}"
     user node['aptly']['user']
     group node['aptly']['group']
     environment aptly_env
