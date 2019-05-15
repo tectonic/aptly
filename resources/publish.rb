@@ -34,7 +34,7 @@ action :create do
     user node['aptly']['user']
     group node['aptly']['group']
     environment aptly_env
-    sensitive true
+    sensitive false
     timeout new_resource.timeout
     not_if %(aptly publish list | grep #{new_resource.publish_name})
   end
